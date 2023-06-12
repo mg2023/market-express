@@ -5,21 +5,20 @@ const { verificarEmail, registrarUsuario, verificarCredenciales, leerRegistro, n
 
 const db = require('../models/local_db');
 
-const requiredFields = ['email', 'password', 'first_name', 'last_name','telephone'];
+const requiredFields = ['email', 'password', 'first_name', 'last_name', 'telephone'];
 
 
 // 1. REGISTRAR y obtener usuarios de la base de datos (1.5 puntos)
-router.post('/usuarios', logEnElTerminal, verificarExistenciaDeCredenciales(requiredFields), async (req, res) => {
+router.post('/register', logEnElTerminal, verificarExistenciaDeCredenciales(requiredFields), async (req, res) => {
   try {
-    const usuario = req.body
-    console.log(usuario.email)
-    const status = await verificarEmail(usuario.email)
-    console.log(status)
-    //if (status === true) {
-    //  throw { code: 401, message: "Usuario ya existe" }
-    //}
+    const customer = req.body
+    const status = await verificarEmail(customer.email)
+    console.log("----------------------Punto CC")
+    if (status === true) {
+      throw { code: 401, message: "Usuario ya existe" }
+    }
 
-    //await registrarUsuario(usuario)
+    await registrarUsuario(customer)
     res.send("Usuario creado con éxito")
   }
   catch (error) {
@@ -29,13 +28,10 @@ router.post('/usuarios', logEnElTerminal, verificarExistenciaDeCredenciales(requ
 })
 
 router.get('/products', async (req, res) => {
-
   await products(req, res)
-
-
 });
 
-router.get('/test', async (req, res) => {
+router.get('/', async (req, res) => {
   await nowTestDb(req, res)
 });
 

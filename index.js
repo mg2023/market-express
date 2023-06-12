@@ -1,7 +1,6 @@
 const express = require('express');
 const router = require('./src/routes/routes')
 
-
 const app = express();
 const port = 3000;
 
@@ -14,7 +13,7 @@ app.use((req, res, next) => {
     "OPTIONS, GET, POST, PUT, PATCH, DELETE" // what matters here is that OPTIONS is present
   );
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
+  next();
 });
 
 app.use(express.json())

@@ -27,41 +27,99 @@ const products = async (req, res) => {
       console.error('Error executing query', err);
       res.status(500).send('Error executing query');
     } else {
-      //res.send(`PostgreSQL connected! Current time: ${result.rows[0].now}`);
-      console.log('entra aca')
-      console.log(result.rows)
       res.status(200).json(result.rows);
     }
   });
 }
 
+const verificarEmail= async (email) => {
+    const values = [email]
+    const consulta = "SELECT * FROM customers WHERE email = $1"
+    const { rows: [table] } = await pool.query(consulta, values)
 
-const verificarEmail = async (email) => {
-  pool.query('SELECT * FROM customers', (err, result) => {
-    if (err) {
-      console.error('Error executing query', err);
-      res.status(500).send('Error executing query');
-    } else {
-      //res.send(`PostgreSQL connected! Current time: ${result.rows[0].now}`);
-      console.log('entra aca')
-      console.log(result.rows)
-      return true
-      //res.status(200).json(result.rows);
-    }
-  });
+    if (table === undefined || table === '')
+        return false
+    else
+        return true
 }
 
+// const registrarUsuario = async (customer) =>{
+  
+//     const sql = `
+//       INSERT INTO customers (
+//         email,
+//         password,
+//         first_name,
+//         last_name,
+//         telephone,
+//         type,
+//         created_at,
+//         modified_at,
+//         deleted_at
+//       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+//     `;
+  
+//     const now = new Date();
+//     const time = now.toLocaleTimeString();
+
+//     const result = await pool.query(sql, [
+//       customer.email,
+//       customer.password,
+//       customer.first_name,
+//       customer.last_name,
+//       customer.telephone,
+//       0,
+//       time,
+//       time,
+//       null,
+//     ]);
+  
+//     // await client.end();
+
+//     if (result.rowCount === 1) {
+//       console.log("Customer inserted successfully");
+//     } else {
+//       console.log("Error inserting customer");
+//     }
+  
+//     return result;
+//   }
+  
+  // // Create a customer
+  // const customer = {
+  //   email: "johndoe@example.com",
+  //   password: "password123",
+  //   first_name: "John",
+  //   last_name: "Doe",
+  //   telephone: "123-456-7890",
+  //   type: 1,
+  //   created_at: new Date(),
+  //   modified_at: new Date(),
+  //   deleted_at: null,
+  // };
+  
+  // // Insert the customer
+  // const result = await insertCustomer(customer);
+  
 
 
-const registrarUsuario = async (usuario) => {
-  let { email, password, rol, lenguage } = usuario
-  if (email, password, rol, lenguage) {
 
+const registrarUsuario = async (customer) => {
+  let { email, password, first_name, last_name, telephone } = customer
+  if (email, password, first_name, last_name, telephone) {
+
+    const now = new Date();
+    const time = now.toLocaleTimeString();
     // 5. Encriptar las contraseñas al momento de registrar nuevos usuarios (3 puntos)
     const passwordEncriptada = bcrypt.hashSync(password, 10)
-    const values = [email, passwordEncriptada, rol, lenguage]
-    const consulta = "INSERT INTO usuarios values (DEFAULT, $1, $2, $3, $4)"
-    await pool.query(consulta, values)
+    console.log('---falla -- 1')
+    const values = [email, passwordEncriptada, first_name, last_name, telephone, 0, time, null ]
+    console.log('---falla -- 2')
+    const consulta = "INSERT INTO customers (email, password, first_name, last_name, telephone,type, created_at, modified) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)"
+    console.log('---falla -- 3')
+    const resultado = await pool.query(consulta, values)
+    console.log(resultado)
+
   }
 }
 
@@ -91,4 +149,4 @@ const leerRegistro = async (email) => {
   return (rows[0])
 }
 
-module.exports = { verificarEmail, registrarUsuario, verificarCredenciales, leerRegistro, nowTestDb , products}
+module.exports = { verificarEmail, registrarUsuario, verificarCredenciales, leerRegistro, nowTestDb, products }
