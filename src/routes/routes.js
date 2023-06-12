@@ -17,12 +17,14 @@ router.post('/register', logEnElTerminal, verificarExistenciaDeCredenciales(requ
     if (status === true) {
       throw { code: 401, message: "Usuario ya existe" }
     }
-
+    console.log(customer)
+    console.log("----------------------Punto DD")
     await registrarUsuario(customer)
     res.send("Usuario creado con éxito")
   }
   catch (error) {
     //Se envia el mensaje de error aunque el front no lo considere, pero seria bueno que lo hiciera.
+    console.log(error.message)
     res.status(error.code || 500).send(error.message)
   }
 })

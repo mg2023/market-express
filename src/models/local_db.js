@@ -2,12 +2,20 @@ const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 
 const pool = new Pool({
-  user: 'mg',
+  user: 'postgres',
   host: 'localhost',
   database: 'market_db',
-  password: 'password',
+  password: 'your_password1',
   port: 5432,
 });
+
+// const pool = new Pool({
+//   user: 'mg',
+//   host: 'localhost',
+//   database: 'market_db',
+//   password: 'password',
+//   port: 5432,
+// });
 
 
 const nowTestDb = async (req, res) => {
@@ -106,21 +114,25 @@ const verificarEmail= async (email) => {
 
 const registrarUsuario = async (customer) => {
   let { email, password, first_name, last_name, telephone } = customer
+  console.log(customer)
   if (email, password, first_name, last_name, telephone) {
-
+  
+    
     const now = new Date();
     const time = now.toLocaleTimeString();
+
     // 5. Encriptar las contraseñas al momento de registrar nuevos usuarios (3 puntos)
     const passwordEncriptada = bcrypt.hashSync(password, 10)
-    console.log('---falla -- 1')
-    const values = [email, passwordEncriptada, first_name, last_name, telephone, 0, time, null ]
-    console.log('---falla -- 2')
-    const consulta = "INSERT INTO customers (email, password, first_name, last_name, telephone,type, created_at, modified) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)"
-    console.log('---falla -- 3')
+    
+    const values = [email, passwordEncriptada, first_name, last_name, telephone, 0]
+    
+    const consulta = "INSERT INTO customers (email, password, first_name, last_name, telephone,type, created_at, modified_at) VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW())"
+    
     const resultado = await pool.query(consulta, values)
-    console.log(resultado)
+    //console.log(resultado)
 
   }
+  console.log('No esta entrando al if')
 }
 
 
