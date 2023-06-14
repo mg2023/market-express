@@ -9,15 +9,15 @@ describe("Operaciones CRUD de marketplace", () => {
         expect(response.body).toBeInstanceOf(Object);
     });
 
-    // it("2. Comprueba que se obtiene un código 404 al intentar eliminar un café con un id que no existe. (2 Puntos)", async () => {
-    //     const jwt = "token";
-    //     const idDeProductoAEliminar = 10
-    //     const { statusCode } = await request(server)
-    //         .delete(`/productos/${idDeProductoAEliminar}`)
-    //         .set("Authorization", jwt)
-    //         .send();
-    //     expect(statusCode).toBe(404);
-    // });
+    it("2. Comprueba que se obtiene un código 404 al intentar eliminar un producto con un id que no existe", async () => {
+        const jwt = "token";
+        const idDeProductoAEliminar = 10
+        const { statusCode } = await request(server)
+            .delete(`/productos/${idDeProductoAEliminar}`)
+            .set("Authorization", jwt)
+            .send();
+        expect(statusCode).toBe(404);
+    });
 
     // it("3. Prueba que la ruta POST /products agrega un nuevo producto y devuelve un código 201. (2 Puntos)", async () => {
     //     const id = 5

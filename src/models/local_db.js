@@ -69,6 +69,23 @@ const addProduct = async (req, res) => {
   }
 }
 
+const deleteProductById = async (id) => {
+  try {
+
+      const values = [id]
+      const query = "DELETE FROM products WHERE id=$1"
+
+      const result = await pool.query(query, values)
+      //console.log(result)
+      return 204 
+ 
+  } catch (error) {
+    console.error(error);
+    return 500 
+    //res.status(500).send("deleteProductById: Error occurred while querying database");
+  }
+}
+
 const verificarEmail = async (email) => {
   try {
     const values = [email]
@@ -169,4 +186,4 @@ const setOrders = async (req, res,) => {
   }
 }
 
-module.exports = { verificarEmail, registrarUsuario, verifyCredentials, getDateFromDataBase, getProducts, getPreferences, setPreferences, getOrders, setOrders, getProductById, addProduct }
+module.exports = { verificarEmail, registrarUsuario, verifyCredentials, getDateFromDataBase, getProducts, getPreferences, setPreferences, getOrders, setOrders, getProductById, addProduct, deleteProductById }

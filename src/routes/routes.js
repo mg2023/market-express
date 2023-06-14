@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken')
 const { verificarExistenciaDeCredenciales, verificarToken } = require('../middleware')
-const { verificarEmail, registrarUsuario, verifyCredentials, getDateFromDataBase, getProducts, getPreferences, setPreferences, getOrders, setOrders , getProductById, addProduct} = require('../models/local_db')
+const { verificarEmail, registrarUsuario, verifyCredentials, getDateFromDataBase, getProducts, getPreferences, setPreferences, getOrders, setOrders, getProductById, addProduct, deleteProductById } = require('../models/local_db')
 
 const requiredFields = ['email', 'password', 'first_name', 'last_name', 'telephone'];
 
@@ -63,14 +63,38 @@ router.get('/', async (req, res) => {
   await getDateFromDataBase(req, res)
 });
 
+router.delete("/products/:id", async (req, res) => {
+  const product = req.body;
+  const { id } = req.params;
+  const product_bd = await getProductById(id)
 
+  if (id != product.id)
+    return res
+      .status(400)
+      .send({
+        message: "El id del parámetro no coincide con el id del producto recibido",
+      });
 
+  console.log(product_bd)
+  if (product_bd.length > 0) {
+    
+    await deleteProductById(id)
+    res
+      .status(204)
+      .send({ message: "Producto eliminado" });
+
+  } else {
+    res
+      .status(404)
+      .send({ message: "No se encontró ningún producto con ese id" });
+  }
+});
 
 // router.put("/products/:id", async (req, res) => {
 //   const product = req.body;
 //   const { id } = req.params;
 //   const  product_bd = await getProductById(id)
- 
+
 //   if (id != product.id)
 //       return res
 //           .status(400)
