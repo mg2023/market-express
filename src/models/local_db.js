@@ -21,11 +21,63 @@ const getDateFromDataBase = async (req, res) => {
 
 const getProducts = async (req, res) => {
   try {
-    const result = pool.query('SELECT * FROM products')
+    const result = await pool.query('SELECT * FROM products')
     res.status(200).json(result.rows);
   } catch (error) {
     console.error(error);
     res.status(500).send("nowTestDb: Error occurred while querying database");
+  }
+}
+
+const getProductById = async (id) => {
+  try {
+    const values = [id]
+    const query = 'SELECT * FROM products WHERE id= $1'
+    const result = await pool.query(query, values)
+    console.log(result.rows)
+    return (result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("nowTestDb: Error occurred while querying database");
+  }
+}
+
+const addProduct = async (req, res) => {
+  try {
+
+    const product = req.body;
+    let { product_name, descrip, cost, price, stock_quantity, url_img, stars_quantity, category, is_new, is_special_offer } = product
+
+    if (product_name, descrip, cost, price, stock_quantity, url_img, stars_quantity, category, is_new, is_special_offer) {
+
+      values = [product_name, descrip, cost, price, stock_quantity, url_img, stars_quantity, category, is_new, is_special_offer]
+      const query = "INSERT INTO products (product_name, descrip, cost, price, stock_quantity,url_img,stars_quantity, category, is_new, is_special_offer, created_at, modified_at) VALUES ($1, $2, $3, $4, $5, $6, $7,$8,$9,$10, NOW(), NOW())"
+
+      // product_name Varchar(255),
+      // descrip Varchar(255),
+      // cost Integer,
+      // price Integer,
+      // stock_quantity Integer,
+      // url_img Text,
+      // stars_quantity integer,
+      // category Varchar(255),
+      // is_new Boolean,
+      // is_special_offer Boolean,
+
+
+      const result = await pool.query(query, values)
+      res.status(201).json({ code: 201, message: "Product added" });
+      // console.log(result)
+      // return (result.rows);
+    }
+    else {
+      console.log('faltan campos')
+      // res.status(400).json({ code: 400, message: "Empty fields " });
+      res.status(500).send("addProduct: Error occurred while querying database");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("addProduct: Error occurred while querying database");
   }
 }
 
@@ -61,7 +113,7 @@ const registrarUsuario = async (customer) => {
     //console.log(resultado)
 
   }
-  
+
 }
 
 
@@ -88,19 +140,19 @@ const getPreferences = async (req, res) => {
     const query = "SELECT * FROM my_preferences"
     const result = await pool.query(query)
     res.status(200).json(result.rows);
-    } catch (error) {
+  } catch (error) {
     console.error(error);
     res.status(500).send("getPreferences: Error occurred while querying database");
   }
 }
 
-const setPreferences = async (req, res, ) => {
+const setPreferences = async (req, res,) => {
   try {
-    const { url_img_banner, url_img_logo} = req.body
+    const { url_img_banner, url_img_logo } = req.body
     const values = [url_img_banner, url_img_logo]
     const query = "INSERT INTO my_preferences (url_img_banner,url_img_logo ) VALUES ($1,$2)"
     await pool.query(query, values)
-    res.status(200).send("setPreferences: preferences updated");
+    res.status(201).send("setPreferences: preferences updated");
   } catch (error) {
     console.error(error);
     res.status(500).send("setPreferences: Error occurred while querying database");
@@ -113,22 +165,22 @@ const getOrders = async (req, res) => {
     const query = "SELECT * FROM orders"
     const result = await pool.query(query)
     res.status(200).json(result.rows);
-    } catch (error) {
+  } catch (error) {
     console.error(error);
     res.status(500).send("getOrders: Error occurred while querying database");
   }
 }
 
-const setOrders = async (req, res, ) => {
+const setOrders = async (req, res,) => {
   try {
     console.log(req.body)
-    
-    const { customer_id, total_amount} = req.body
-    console.log(typeof(customer_id))
+
+    const { customer_id, total_amount } = req.body
+    console.log(typeof (customer_id))
     const values = [customer_id, total_amount]
     const query = "INSERT INTO orders (customer_id,total_amount, created_at) VALUES ($1,$2, NOW())"
     await pool.query(query, values)
-    res.status(200).send("setOrders: orders updated");
+    res.status(201).send("setOrders: orders updated");
   } catch (error) {
     console.error(error);
     res.status(500).send("setOrders: Error occurred while querying database");
@@ -136,4 +188,4 @@ const setOrders = async (req, res, ) => {
 }
 
 
-module.exports = { verificarEmail, registrarUsuario, verifyCredentials, getDateFromDataBase, getProducts, getPreferences, setPreferences,getOrders,setOrders }
+module.exports = { verificarEmail, registrarUsuario, verifyCredentials, getDateFromDataBase, getProducts, getPreferences, setPreferences, getOrders, setOrders, getProductById, addProduct }
