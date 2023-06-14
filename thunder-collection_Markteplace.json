@@ -1,0 +1,163 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Markteplace",
+    "dateExported": "2023-06-14T17:15:36.674Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "521c59a3-2641-4d6c-8636-d8edaf516301",
+            "colId": "114d4305-34f4-4ab5-b3cb-aca6ae304579",
+            "containerId": "",
+            "name": "127.0.0.1:3000/products",
+            "url": "127.0.0.1:3000/products",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-06-12T21:38:02.242Z",
+            "modified": "2023-06-12T21:38:02.242Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "201d27fa-e6db-49ad-92b5-7d31e6748d21",
+            "colId": "114d4305-34f4-4ab5-b3cb-aca6ae304579",
+            "containerId": "",
+            "name": "127.0.0.1:3000/register",
+            "url": "127.0.0.1:3000/register",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-06-12T21:38:15.753Z",
+            "modified": "2023-06-12T21:38:15.753Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\":\"enriqueta@gmail.com\",\n  \"password\": \"a\",\n  \"first_name\":\"c\",\n  \"last_name\":\"v\",\n  \"telephone\":\"8\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "5e224b4b-23fd-4e04-a46b-820e0d3e4698",
+            "colId": "114d4305-34f4-4ab5-b3cb-aca6ae304579",
+            "containerId": "",
+            "name": "127.0.0.1:3000/login",
+            "url": "127.0.0.1:3000/login",
+            "method": "POST",
+            "sortNum": 25000,
+            "created": "2023-06-14T01:26:50.462Z",
+            "modified": "2023-06-14T01:58:29.917Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\":\"perro@gmail.com\",\n  \"password\":\"1234\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "2993c562-dd9e-4d75-b569-113e3b09d894",
+            "colId": "114d4305-34f4-4ab5-b3cb-aca6ae304579",
+            "containerId": "",
+            "name": "127.0.0.1:3000/",
+            "url": "127.0.0.1:3000/",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2023-06-12T21:38:30.994Z",
+            "modified": "2023-06-12T21:38:30.994Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "2931ca1f-7d04-4b33-b650-59fd1822a3b7",
+            "colId": "114d4305-34f4-4ab5-b3cb-aca6ae304579",
+            "containerId": "",
+            "name": "127.0.0.1:3000/preferences",
+            "url": "127.0.0.1:3000/orders",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2023-06-14T00:40:10.707Z",
+            "modified": "2023-06-14T02:19:08.377Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"customer_id\": 5,\n    \"total_amount\": 45900\n}\n",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBlcnJvQGdtYWlsLmNvbSIsImlhdCI6MTY4NjcwMDcxMCwiZXhwIjoxNjg2ODczNTEwfQ.e62gBQVBXJNwhXLmt8QSj_SdsPW3b4gs5asJ0DNLZVY"
+            },
+            "tests": []
+        },
+        {
+            "_id": "25724a61-3f65-447f-955d-85ec44b1862b",
+            "colId": "114d4305-34f4-4ab5-b3cb-aca6ae304579",
+            "containerId": "",
+            "name": "127.0.0.1:3000/preferences",
+            "url": "127.0.0.1:3000/preferences",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2023-06-14T01:01:36.069Z",
+            "modified": "2023-06-14T01:01:36.069Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "  {\n    \"url_img_banner\": \"www.img.rojo.com\",\n    \"url_img_logo\": \"www.img.azul.com\"\n  }",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "3073d4dd-c36c-4ef3-ba7b-a9030bfcb81a",
+            "colId": "114d4305-34f4-4ab5-b3cb-aca6ae304579",
+            "containerId": "",
+            "name": "127.0.0.1:3000/orders",
+            "url": "127.0.0.1:3000/orders",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2023-06-14T02:18:30.247Z",
+            "modified": "2023-06-14T02:18:30.247Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "  {\n    \"url_img_banner\": \"www.img.naranjo.com\",\n    \"url_img_logo\": \"www.img.verder.com\"\n  }",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBlcnJvQGdtYWlsLmNvbSIsImlhdCI6MTY4NjcwMDcxMCwiZXhwIjoxNjg2ODczNTEwfQ.e62gBQVBXJNwhXLmt8QSj_SdsPW3b4gs5asJ0DNLZVY"
+            },
+            "tests": []
+        },
+        {
+            "_id": "115e85cb-bf9c-4737-9ce6-ede9ea63b168",
+            "colId": "114d4305-34f4-4ab5-b3cb-aca6ae304579",
+            "containerId": "",
+            "name": "127.0.0.1:3000/orders",
+            "url": "127.0.0.1:3000/orders",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2023-06-14T02:20:10.496Z",
+            "modified": "2023-06-14T02:20:10.496Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"customer_id\": 3,\n    \"total_amount\": 6990\n}\n",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBlcnJvQGdtYWlsLmNvbSIsImlhdCI6MTY4NjcwMDcxMCwiZXhwIjoxNjg2ODczNTEwfQ.e62gBQVBXJNwhXLmt8QSj_SdsPW3b4gs5asJ0DNLZVY"
+            },
+            "tests": []
+        }
+    ]
+}

@@ -4,8 +4,10 @@ const bcrypt = require('bcrypt');
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'market_db',
-  password: 'your_password1',
+  //database: 'market_db',
+  database: 'marketplace',
+  // password: 'your_password1',
+  password: 'ok',
   port: 5432,
 });
 
@@ -25,7 +27,7 @@ const getProducts = async (req, res) => {
     res.status(200).json(result.rows);
   } catch (error) {
     console.error(error);
-    res.status(500).send("nowTestDb: Error occurred while querying database");
+    res.status(500).send("getProducts: Error occurred while querying database");
   }
 }
 
@@ -34,36 +36,22 @@ const getProductById = async (id) => {
     const values = [id]
     const query = 'SELECT * FROM products WHERE id= $1'
     const result = await pool.query(query, values)
-    console.log(result.rows)
     return (result.rows);
   } catch (error) {
     console.error(error);
-    res.status(500).send("nowTestDb: Error occurred while querying database");
+    res.status(500).send("getProductById: Error occurred while querying database");
   }
 }
 
 const addProduct = async (req, res) => {
   try {
-
     const product = req.body;
     let { product_name, descrip, cost, price, stock_quantity, url_img, stars_quantity, category, is_new, is_special_offer } = product
 
     if (product_name, descrip, cost, price, stock_quantity, url_img, stars_quantity, category, is_new, is_special_offer) {
 
-      values = [product_name, descrip, cost, price, stock_quantity, url_img, stars_quantity, category, is_new, is_special_offer]
+      const values = [product_name, descrip, cost, price, stock_quantity, url_img, stars_quantity, category, is_new, is_special_offer]
       const query = "INSERT INTO products (product_name, descrip, cost, price, stock_quantity,url_img,stars_quantity, category, is_new, is_special_offer, created_at, modified_at) VALUES ($1, $2, $3, $4, $5, $6, $7,$8,$9,$10, NOW(), NOW())"
-
-      // product_name Varchar(255),
-      // descrip Varchar(255),
-      // cost Integer,
-      // price Integer,
-      // stock_quantity Integer,
-      // url_img Text,
-      // stars_quantity integer,
-      // category Varchar(255),
-      // is_new Boolean,
-      // is_special_offer Boolean,
-
 
       const result = await pool.query(query, values)
       res.status(201).json({ code: 201, message: "Product added" });
@@ -82,16 +70,20 @@ const addProduct = async (req, res) => {
 }
 
 const verificarEmail = async (email) => {
-  const values = [email]
-  const consulta = "SELECT * FROM customers WHERE email = $1"
-  const { rows: [table] } = await pool.query(consulta, values)
+  try {
+    const values = [email]
+    const consulta = "SELECT * FROM customers WHERE email = $1"
+    const { rows: [table] } = await pool.query(consulta, values)
 
-  if (table === undefined || table === '')
-    return false
-  else
-    return true
+    if (table === undefined || table === '')
+      return false
+    else
+      return true
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("verificarEmail: Error occurred while querying database");
+  }
 }
-
 
 const registrarUsuario = async (customer) => {
   let { email, password, first_name, last_name, telephone } = customer
@@ -111,13 +103,8 @@ const registrarUsuario = async (customer) => {
 
     const resultado = await pool.query(consulta, values)
     //console.log(resultado)
-
   }
-
 }
-
-
-
 
 const verifyCredentials = async (email, password) => {
   const values = [email]
@@ -133,7 +120,6 @@ const verifyCredentials = async (email, password) => {
   if (!passwordEsCorrecta || !rowCount)
     throw { code: 401, message: "Contraseña incorrecta" }
 }
-
 
 const getPreferences = async (req, res) => {
   try {
@@ -159,7 +145,6 @@ const setPreferences = async (req, res,) => {
   }
 }
 
-
 const getOrders = async (req, res) => {
   try {
     const query = "SELECT * FROM orders"
@@ -173,10 +158,7 @@ const getOrders = async (req, res) => {
 
 const setOrders = async (req, res,) => {
   try {
-    console.log(req.body)
-
     const { customer_id, total_amount } = req.body
-    console.log(typeof (customer_id))
     const values = [customer_id, total_amount]
     const query = "INSERT INTO orders (customer_id,total_amount, created_at) VALUES ($1,$2, NOW())"
     await pool.query(query, values)
@@ -186,6 +168,5 @@ const setOrders = async (req, res,) => {
     res.status(500).send("setOrders: Error occurred while querying database");
   }
 }
-
 
 module.exports = { verificarEmail, registrarUsuario, verifyCredentials, getDateFromDataBase, getProducts, getPreferences, setPreferences, getOrders, setOrders, getProductById, addProduct }

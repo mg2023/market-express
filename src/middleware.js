@@ -16,8 +16,7 @@ function verificarExistenciaDeCredenciales(fields) {
 
 const verificarToken = (req, res, next) => {
   try {
-    //ACA HAY UN PROBLEMA, NO ATRABA EL ERROR CUANDO NO ENVIAN EL HEADER
-
+    //ACA HAY UN PROBLEMA, NO ATRAPA EL ERROR CUANDO NO ENVIAN EL HEADER
     const token = req.header("Authorization").split("Bearer ")[1]
 
     if (!token) throw {
@@ -41,19 +40,7 @@ const verificarToken = (req, res, next) => {
       console.error('Unknown error', error);
     }
     res.status(error.code || 500).send(error.message)
-
-
   }
-
-
 }
 
-
-const logEnElTerminal = (req, res, next) => {
-  const now = new Date();
-  const time = now.toLocaleTimeString();
-  console.log(`${time} --- Recibe llamada de tipo ${req.method}, en la ruta ${req.path}`)
-  next()
-}
-
-module.exports = { verificarExistenciaDeCredenciales, verificarToken, logEnElTerminal } 
+module.exports = { verificarExistenciaDeCredenciales, verificarToken } 
