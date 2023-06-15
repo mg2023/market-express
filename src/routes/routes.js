@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken')
 const { verificarExistenciaDeCredenciales, verificarToken } = require('../middleware')
-const { verificarEmail, registrarUsuario, verifyCredentials, getDateFromDataBase, getProducts, getPreferences, setPreferences, getOrders, setOrders, getProductById, addProduct, deleteProductById } = require('../models/local_db')
+const { verificarEmail, registrarUsuario, verifyCredentials, getDateFromDataBase, getProducts, getPreferences, setPreferences, getOrders, setOrders, getProductById, addProduct, deleteProductById, updateProduct } = require('../models/local_db')
 
 const requiredFields = ['email', 'password', 'first_name', 'last_name', 'telephone'];
 
@@ -43,26 +43,6 @@ router.post("/products", async (req, res) => {
   await addProduct(req, res)
 });
 
-router.get('/preferences', verificarToken, async (req, res) => {
-  await getPreferences(req, res)
-})
-
-router.post('/preferences', verificarToken, async (req, res) => {
-  await setPreferences(req, res)
-})
-
-router.get('/orders', verificarToken, async (req, res) => {
-  await getOrders(req, res)
-})
-
-router.post('/orders', verificarToken, async (req, res) => {
-  await setOrders(req, res)
-})
-
-router.get('/', async (req, res) => {
-  await getDateFromDataBase(req, res)
-});
-
 router.delete("/products/:id", async (req, res) => {
   const product = req.body;
   const { id } = req.params;
@@ -90,36 +70,52 @@ router.delete("/products/:id", async (req, res) => {
   }
 });
 
-// router.put("/products/:id", async (req, res) => {
-//   const product = req.body;
-//   const { id } = req.params;
-//   const  product_bd = await getProductById(id)
+router.get('/preferences', verificarToken, async (req, res) => {
+  await getPreferences(req, res)
+})
 
-//   if (id != product.id)
-//       return res
-//           .status(400)
-//           .send({
-//               message: "El id del parámetro no coincide con el id del producto recibido",
-//           });
-//   if (product_bd.length === 0){
-//         return  res
-//           .status(404)
-//           .send({ message: "No se encontró ningún producto con ese id" });
-//   }
+router.post('/preferences', verificarToken, async (req, res) => {
+  await setPreferences(req, res)
+})
+
+router.get('/orders', verificarToken, async (req, res) => {
+  await getOrders(req, res)
+})
+
+router.post('/orders', verificarToken, async (req, res) => {
+  await setOrders(req, res)
+})
+
+router.get('/', async (req, res) => {
+  await getDateFromDataBase(req, res)
+});
+
+router.put("/products/:id", async (req, res) => {
+  const { productId , fieldName, fieldValue } = req.body;
+  const { id } = req.params;
+  const  product_bd = await getProductById(id)
+
+  if (id != productId )
+      return res
+          .status(400)
+          .send({
+              message: "El id del parámetro no coincide con el id del producto recibido",
+          });
 
 
-//   if (product_bd.length  >= 0) {
-//     console.log(product_bd[0].id)
-//     await updateProduct(product)
-//     res
-//     .status(201)
-//     .send({ message: "Producto actualizado" });
 
-//   } else {
-//       res
-//           .status(404)
-//           .send({ message: "No se encontró ningún producto con ese id" });
-//   }
-// });
+  if (product_bd.length  > 0) {
+    console.log(product_bd[0].id)
+    await updateProduct(id, fieldName, fieldValue)
+    res
+    .status(201)
+    .send({ message: "Producto actualizado" });
+
+  } else {
+      res
+          .status(404)
+          .send({ message: "No se encontró ningún producto con ese id" });
+  }
+});
 
 module.exports = router;

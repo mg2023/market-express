@@ -96,8 +96,19 @@ VALUES (DEFAULT, 'final fantasy XV', 'Juego de aventura', 12000, 17000, 5,
 3, 'Aventuras ', true, false, NOW(), null, null  );
 
 
+INSERT INTO products(id,product_name,descrip,cost,price,stock_quantity,url_img ,stars_quantity , category ,is_new,is_special_offer,created_at,modified_at,deleted_at) 
+VALUES (DEFAULT, 'Mortal Kombat', 'Peleas', 45000, 21000, 8, 
+'https://firebasestorage.googleapis.com/v0/b/proyecto-final-desafio-latam.appspot.com/o/ff_rpg.jpeg?alt=media&token=3a9a8abe-642c-4bec-bd15-d3c3c53032d6&_gl=1*ze23bb*_ga*MjEyMzIzMjg0Mi4xNjg2MDE3NzE4*_ga_CW55HF8NVT*MTY4NjEwMzI0Ny40LjEuMTY4NjEwMzI2Mi4wLjAuMA..', 
+5, 'Peleas ', false, true, NOW(), null, null  );
+
 INSERT INTO my_preferences(url_img_banner,url_img_logo)
 VALUES('www.img.mybestbanner.com', 'www.img.mybestlogo.com')
 
 INSERT INTO orders(customer_id,total_amount,created_at)
-VALUES(4, 7800), NOW()
+VALUES(4, 7800, NOW() );
+
+INSERT INTO orders(customer_id,total_amount,created_at)
+VALUES(4, 71200, NOW() );
+
+INSERT INTO orders(customer_id,total_amount,created_at)
+VALUES(2, 12500, NOW() );
