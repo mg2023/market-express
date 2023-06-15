@@ -25,7 +25,9 @@ const pool = new Pool({
 
 const getDateFromDataBase = async (req, res) => {
   try {
-    const result = pool.query('SELECT NOW()')
+    console.log(process.env)
+    const result = await pool.query('SELECT NOW()')
+    console.log(result)
     res.status(200).send(`PostgreSQL connected! Current time: ${result.rows[0].now}`);
   } catch (error) {
     console.error(error);

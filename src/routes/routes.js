@@ -59,7 +59,7 @@ router.post('/orders', verificarToken, async (req, res) => {
   await setOrders(req, res)
 })
 
-router.get('/', async (req, res) => {
+router.get('/date', async (req, res) => {
   await getDateFromDataBase(req, res)
 });
 
