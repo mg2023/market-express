@@ -7,12 +7,19 @@ const pool = new Pool({
 })
 
 // const pool = new Pool({
-//   user: 'postgres',
-//   host: 'localhost',
-//   //database: 'market_db',
-//   database: 'marketplace',
-//   // password: 'your_password1',
-//   password: 'ok',
+
+//   host: process.env.LOCAL_DB_HOST,
+//   user: process.env.LOCAL_DB_USER,
+//   password: process.env.LOCAL_DB_PASSWORD,
+//   database: process.env.LOCAL_DB_NAME,
+
+
+//   // user: 'postgres',
+//   // host: 'localhost',
+//   // //database: 'market_db',
+//   // database: 'marketplace',
+//   // // password: 'your_password1',
+//   // password: 'ok',
 //   port: 5432,
 // });
 
