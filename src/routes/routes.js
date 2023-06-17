@@ -6,7 +6,7 @@ const { verificarEmail, registrarUsuario, verifyCredentials, getDateFromDataBase
 
 const requiredFields = ['email', 'password', 'first_name', 'last_name', 'telephone'];
 
-router.post('/register', verificarExistenciaDeCredenciales(requiredFields), async (req, res) => {
+router.post('/v1/register', verificarExistenciaDeCredenciales(requiredFields), async (req, res) => {
   try {
     const customer = req.body
     const status = await verificarEmail(customer.email)
@@ -22,7 +22,7 @@ router.post('/register', verificarExistenciaDeCredenciales(requiredFields), asyn
   }
 })
 
-router.post('/login', async (req, res) => {
+router.post('/v1/login', async (req, res) => {
   try {
     const { email, password } = req.body
     await verifyCredentials(email, password)
@@ -35,15 +35,15 @@ router.post('/login', async (req, res) => {
   }
 })
 
-router.get('/products', async (req, res) => {
+router.get('/v1/products', async (req, res) => {
   await getProducts(req, res)
 });
 
-router.post("/products", async (req, res) => {
+router.post("/v1/products", async (req, res) => {
   await addProduct(req, res)
 });
 
-router.delete("/products/:id", async (req, res) => {
+router.delete("/v1/products/:id", async (req, res) => {
   const product = req.body;
   const { id } = req.params;
   const product_bd = await getProductById(id)
@@ -70,27 +70,27 @@ router.delete("/products/:id", async (req, res) => {
   }
 });
 
-router.get('/preferences', verificarToken, async (req, res) => {
+router.get('/v1/preferences', verificarToken, async (req, res) => {
   await getPreferences(req, res)
 })
 
-router.post('/preferences', verificarToken, async (req, res) => {
+router.post('/v1/preferences', verificarToken, async (req, res) => {
   await setPreferences(req, res)
 })
 
-router.get('/orders', verificarToken, async (req, res) => {
+router.get('/v1/orders', verificarToken, async (req, res) => {
   await getOrders(req, res)
 })
 
-router.post('/orders', verificarToken, async (req, res) => {
+router.post('/v1/orders', verificarToken, async (req, res) => {
   await setOrders(req, res)
 })
 
-router.get('/', async (req, res) => {
+router.get('/v1/', async (req, res) => {
   await getDateFromDataBase(req, res)
 });
 
-router.put("/products/:id", async (req, res) => {
+router.put("/v1/products/:id", async (req, res) => {
   const { productId , fieldName, fieldValue } = req.body;
   const { id } = req.params;
   const  product_bd = await getProductById(id)
