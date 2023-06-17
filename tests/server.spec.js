@@ -19,7 +19,7 @@ describe("Operaciones CRUD de marketplace", () => {
         expect(statusCode).toBe(404);
     });
 
-    it("3. Prueba que la ruta POST /products agrega un nuevo producto y devuelve un código 201. (2 Puntos)", async () => {
+    it("3. Prueba que la ruta POST /products agrega un nuevo producto y devuelve un código 201. ", async () => {
         const producto = {product_name : "Street fighter", descrip: "Peleas callejeras", cost: 5600, price : 2800, stock_quantity: 45, url_img: "url_img_street", stars_quantity: 5, category :"peleas", is_new : true, is_special_offer : true }
         const { statusCode } = await request(server)
             .post("/products")
@@ -27,7 +27,7 @@ describe("Operaciones CRUD de marketplace", () => {
         expect(statusCode).toBe(201);
     });
 
-    it("4. Prueba que la ruta PUT /products devuelve un status code 400 si intentas actualizar un producto enviando un id en los parámetros que sea diferente al id dentro del payload. (3 Puntos)", async () => {
+    it("4. Prueba que la ruta PUT /products devuelve un status code 400 si intentas actualizar un producto enviando un id en los parámetros que sea diferente al id dentro del payload.", async () => {
         //El id es distinto al id en el path
         const id = 1
         const producto = {id, product_name : "Street fighter V", descrip: "Peleas callejeras", cost: 5600, price : 2800, stock_quantity: 45, url_img: "url_img_street", stars_quantity: 5, category :"peleas", is_new : true, is_special_offer : true }
