@@ -100,26 +100,81 @@ const deleteProductById = async (id) => {
   }
 }
 
-const updateProduct = async (id, fieldName, fieldValue) => {
+
+const updateProduct = async (req, res) => {
   try {
+    const product = req.body;
+    console.log("Antes de editar2")
+    console.log(product)
+    let { id, product_name, descrip, cost, price, stock_quantity, url_img, stars_quantity, category, is_new, is_special_offer } = product;
+    console.log("Antes de editar4")
 
     console.log(id)
-    console.log(fieldName)
-    console.log(fieldValue)
+    console.log(product_name)
+    console.log(descrip)
+    console.log(cost)
+    console.log(price)
+    console.log(stock_quantity)
+    console.log(url_img)
+    console.log(stars_quantity)
+    console.log(category)
+    console.log(is_new)
+    console.log(is_special_offer)
 
-    const values = [fieldValue, id]
-    const query = `UPDATE products SET ${fieldName} = $1 WHERE id = $2`;
 
-    const result = await pool.query(query, values)
-    console.log(result)
-    return 201
+    if (id, product_name) {
+    // if (id, product_name, descrip, cost, price, stock_quantity, url_img, stars_quantity, category, is_new, is_special_offer) {
+      console.log("Luego del IF")
+      const values = [id, product_name, descrip, cost, price, stock_quantity, url_img, stars_quantity, category, is_new, is_special_offer];
+      const query = `
+        UPDATE products 
+        SET 
+          product_name = $2,
+          descrip = $3,
+          cost = $4,
+          price = $5,
+          stock_quantity = $6,
+          url_img = $7,
+          stars_quantity = $8,
+          category = $9,
+          is_new = $10,
+          is_special_offer = $11
+        WHERE id = $1;
+      `;
 
+      const result = await pool.query(query, values);
+      console.log(result);
+      return res.status(201).json({ code: 201, message: "Product updated" });
+    } else {
+      return res.status(400).json({ code: 400, message: "Invalid request body" });
+    }
   } catch (error) {
     console.error(error);
-    return 500
-    //res.status(500).send("deleteProductById: Error occurred while querying database");
+    return res.status(500).json({ code: 500, message: "An error occurred while updating the product" });
   }
-}
+};
+
+
+// const updateProduct = async (id, fieldName, fieldValue) => {
+//   try {
+
+//     console.log(id)
+//     console.log(fieldName)
+//     console.log(fieldValue)
+
+//     const values = [fieldValue, id]
+//     const query = `UPDATE products SET ${fieldName} = $1 WHERE id = $2`;
+
+//     const result = await pool.query(query, values)
+//     console.log(result)
+//     return 201
+
+//   } catch (error) {
+//     console.error(error);
+//     return 500
+//     //res.status(500).send("deleteProductById: Error occurred while querying database");
+//   }
+// }
 
 
 const verificarEmail = async (email) => {

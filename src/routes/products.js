@@ -39,12 +39,45 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// router.put("/:id", async (req, res) => {
+//   const { productId, fieldName, fieldValue } = req.body;
+//   const { id } = req.params;
+//   const product_bd = await getProductById(id)
+
+//   console.log("llega put products")
+
+//   if (id != productId)
+//     return res
+//       .status(400)
+//       .send({
+//         message: "El id del parámetro no coincide con el id del producto recibido",
+//       });
+
+
+
+//   if (product_bd.length > 0) {
+//     console.log(product_bd[0].id)
+//     await updateProduct(id, fieldName, fieldValue)
+//     res
+//       .status(201)
+//       .send({ message: "Producto actualizado" });
+
+//   } else {
+//     res
+//       .status(404)
+//       .send({ message: "No se encontró ningún producto con ese id" });
+//   }
+// });
+
+
 router.put("/:id", async (req, res) => {
-  const { productId, fieldName, fieldValue } = req.body;
-  const { id } = req.params;
+
+
+  const { id } = req.body;
+  const { id : productId } = req.params;
   const product_bd = await getProductById(id)
 
-  console.log("llega put products")
+
 
   if (id != productId)
     return res
@@ -54,13 +87,13 @@ router.put("/:id", async (req, res) => {
       });
 
 
-
+      console.log("Antes de editar")
   if (product_bd.length > 0) {
     console.log(product_bd[0].id)
-    await updateProduct(id, fieldName, fieldValue)
-    res
-      .status(201)
-      .send({ message: "Producto actualizado" });
+    await updateProduct(req, res)
+    // res
+    //   .status(201)
+    //   .send({ message: "Producto actualizado" });
 
   } else {
     res
