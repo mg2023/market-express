@@ -86,16 +86,16 @@ const addProduct = async (req, res) => {
 const deleteProductById = async (id) => {
   try {
 
-      const values = [id]
-      const query = "DELETE FROM products WHERE id=$1"
+    const values = [id]
+    const query = "DELETE FROM products WHERE id=$1"
 
-      const result = await pool.query(query, values)
-      //console.log(result)
-      return 204 
- 
+    const result = await pool.query(query, values)
+    //console.log(result)
+    return 204
+
   } catch (error) {
     console.error(error);
-    return 500 
+    return 500
     //res.status(500).send("deleteProductById: Error occurred while querying database");
   }
 }
@@ -103,16 +103,20 @@ const deleteProductById = async (id) => {
 const updateProduct = async (id, fieldName, fieldValue) => {
   try {
 
-      const values = [ fieldValue, id]
-      const query = `UPDATE products SET ${fieldName} = $1 WHERE id = $2`;
+    console.log(id)
+    console.log(fieldName)
+    console.log(fieldValue)
 
-      const result = await pool.query(query, values)
-      console.log(result)
-      return 201 
- 
+    const values = [fieldValue, id]
+    const query = `UPDATE products SET ${fieldName} = $1 WHERE id = $2`;
+
+    const result = await pool.query(query, values)
+    console.log(result)
+    return 201
+
   } catch (error) {
     console.error(error);
-    return 500 
+    return 500
     //res.status(500).send("deleteProductById: Error occurred while querying database");
   }
 }
@@ -218,4 +222,4 @@ const setOrders = async (req, res,) => {
   }
 }
 
-module.exports = { verificarEmail, registrarUsuario, verifyCredentials, getDateFromDataBase, getProducts, getPreferences, setPreferences, getOrders, setOrders, getProductById, addProduct, deleteProductById ,updateProduct }
+module.exports = { verificarEmail, registrarUsuario, verifyCredentials, getDateFromDataBase, getProducts, getPreferences, setPreferences, getOrders, setOrders, getProductById, addProduct, deleteProductById, updateProduct }

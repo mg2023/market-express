@@ -13,18 +13,18 @@ router.post("/", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  const product = req.body;
+  const {productId} = req.body;
   const { id } = req.params;
+
   const product_bd = await getProductById(id)
 
-  if (id != product.id)
+  if (id != productId)
     return res
       .status(400)
       .send({
         message: "El id del parámetro no coincide con el id del producto recibido",
       });
 
-  console.log(product_bd)
   if (product_bd.length > 0) {
 
     await deleteProductById(id)
@@ -43,6 +43,8 @@ router.put("/:id", async (req, res) => {
   const { productId, fieldName, fieldValue } = req.body;
   const { id } = req.params;
   const product_bd = await getProductById(id)
+
+  console.log("llega put products")
 
   if (id != productId)
     return res
