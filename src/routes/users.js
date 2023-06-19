@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken')
 const { verificarExistenciaDeCredenciales } = require('../middleware')
 const { verificarEmail, registrarUsuario, verifyCredentials } = require('../models/local_db')
 
-
 const requiredFields = ['email', 'password', 'first_name', 'last_name', 'telephone'];
 router.post('/register', verificarExistenciaDeCredenciales(requiredFields), async (req, res) => {
     try {
