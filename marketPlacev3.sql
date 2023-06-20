@@ -55,7 +55,7 @@ CREATE TABLE contact_requests(
 id SERIAL PRIMARY KEY,
 name Varchar,
 email Varchar,
-comments text,
+comments Text,
 created_at Timestamp
 );
 

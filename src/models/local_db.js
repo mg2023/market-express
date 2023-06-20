@@ -157,11 +157,6 @@ const registrarUsuario = async (customer) => {
   console.log(customer)
   if (email, password, first_name, last_name, telephone) {
 
-
-    const now = new Date();
-    const time = now.toLocaleTimeString();
-
-    // 5. Encriptar las contraseñas al momento de registrar nuevos usuarios (3 puntos)
     const passwordEncriptada = bcrypt.hashSync(password, 10)
 
     const values = [email, passwordEncriptada, first_name, last_name, telephone, 0]
@@ -236,4 +231,48 @@ const setOrders = async (req, res,) => {
   }
 }
 
-module.exports = { verificarEmail, registrarUsuario, verifyCredentials, getDateFromDataBase, getAllProducts, getPreferences, setPreferences, getOrders, setOrders, getProductById, addProduct, deleteProductById, updateProduct }
+const getContactRequest = async (req, res,) => {
+  try {
+    const query = "SELECT * FROM contact_requests"
+    const result = await pool.query(query)
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("setContactRequest: Error occurred while querying database");
+  }
+}
+
+const setContactRequest = async (req, res,) => {
+  try {
+    const { name, email, comments } = req.body
+
+    console.log(req.body)
+    const values = [name, email, comments]
+    const query = "INSERT INTO contact_requests (name, email, comments, created_at) VALUES ($1,$2, $3, NOW())"
+    await pool.query(query, values)
+    res.status(201).send("setContactRequest: contact request received");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("setContactRequest: Error occurred while querying database");
+  }
+}
+
+
+
+module.exports = {
+  getContactRequest,
+  setContactRequest,
+  verificarEmail,
+  registrarUsuario,
+  verifyCredentials,
+  getDateFromDataBase,
+  getAllProducts,
+  getPreferences,
+  setPreferences,
+  getOrders,
+  setOrders,
+  getProductById,
+  addProduct,
+  deleteProductById,
+  updateProduct
+}
