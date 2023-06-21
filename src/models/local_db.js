@@ -37,7 +37,7 @@ const getDateFromDataBase = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM products')
+    const result = await pool.query('SELECT * FROM products ORDER BY id ASC')
     res.status(200).json(result.rows);
   } catch (error) {
     console.error(error);
@@ -148,7 +148,7 @@ const verificarEmail = async (email) => {
       return true
   } catch (error) {
     console.error(error);
-    res.status(500).send("verificarEmail: Error occurred while querying database");
+    //res.status(500).send("verificarEmail: Error occurred while querying database");
   }
 }
 
@@ -223,7 +223,8 @@ const setOrders = async (req, res,) => {
     const { customer_id, total_amount } = req.body
     const values = [customer_id, total_amount]
     const query = "INSERT INTO orders (customer_id,total_amount, created_at) VALUES ($1,$2, NOW())"
-    await pool.query(query, values)
+    const result = await pool.query(query, values)
+    console.log(result)
     res.status(201).send("setOrders: orders updated");
   } catch (error) {
     console.error(error);

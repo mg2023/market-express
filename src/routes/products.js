@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  const { productId } = req.body;
+  const { id : productId } = req.body;
   const { id } = req.params;
 
   const product_bd = await getProductById(id)
@@ -53,7 +53,7 @@ router.delete("/:id", async (req, res) => {
 
     await deleteProductById(id)
     res
-      .status(204)
+      .status(200)
       .send({ message: "The product has been deleted" });
 
   } else {
