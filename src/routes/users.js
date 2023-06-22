@@ -14,7 +14,7 @@ router.post('/register', verificarExistenciaDeCredenciales(requiredFields), asyn
             throw { code: 401, message: "Usuario ya existe" }
         }
         await registrarUsuario(customer)
-        res.send("Usuario creado con éxito")
+        res.status(200).send("Usuario creado con éxito")
     }
     catch (error) {
         console.log(error.message)
@@ -27,12 +27,15 @@ router.post('/login', async (req, res) => {
         const { email, password } = req.body
         await verifyCredentials(email, password)
         const token = jwt.sign({ email }, 'clavesecreta', { expiresIn: "2 days" })
-        res.send(token)
+        res.status(200).send({ token });
     }
     catch (error) {
         //Envia los casos de usuario o contraseña incorrecta
         res.status(error.code || 500).send(error.message)
     }
 })
+
+
+
 
 module.exports = router;

@@ -16,19 +16,20 @@ function verificarExistenciaDeCredenciales(fields) {
 
 const verificarToken = (req, res, next) => {
   try {
-    //ACA HAY UN PROBLEMA, NO ATRAPA EL ERROR CUANDO NO ENVIAN EL HEADER
-    const token = req.header("Authorization").split("Bearer ")[1]
-
+    let token = req.header("Authorization")    
+    
     if (!token) throw {
       code: 401,
-      message: "Debes incluir token en el header"
+      message: "Token not found"
     }
 
-    const tokenValido = jwt.verify(token, 'clavesecreta')
+    token = req.header("Authorization").split("Bearer ")[1]
+
+    const decodedToken = jwt.verify(token, 'clavesecreta')
     // otra opcion para decodificar
     // const {email} = jwt.decode(token)
 
-    req.email = tokenValido.email
+    req.email = decodedToken.email
     next()
   } catch (error) {
 
