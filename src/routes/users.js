@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken')
 
 const { verificarExistenciaDeCredenciales } = require('../middleware')
-const { verificarEmail, registrarUsuario, verifyCredentials } = require('../models/local_db')
+const { verificarEmail, registrarUsuario, verifyCredentials, getUserIdbyEmail } = require('../models/local_db')
 
 const requiredFields = ['email', 'password', 'first_name', 'last_name', 'telephone'];
 router.post('/register', verificarExistenciaDeCredenciales(requiredFields), async (req, res) => {
@@ -28,6 +28,16 @@ router.post('/login', async (req, res) => {
         await verifyCredentials(email, password)
         const token = jwt.sign({ email }, 'clavesecreta', { expiresIn: "2 days" })
         res.status(200).send({ token });
+    }
+    catch (error) {
+        //Envia los casos de usuario o contraseña incorrecta
+        res.status(error.code || 500).send(error.message)
+    }
+})
+
+router.get('/getId', async (req, res) => {
+    try {
+        await getUserIdbyEmail(req, res)
     }
     catch (error) {
         //Envia los casos de usuario o contraseña incorrecta

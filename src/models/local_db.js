@@ -35,6 +35,23 @@ const getDateFromDataBase = async (req, res) => {
   }
 }
 
+
+const getUserIdbyEmail = async (req, res) => {
+  try {
+    //console.log(process.env)
+    const { email } = req.body;
+    const values = [ email ]
+    const query = 'SELECT id FROM customers where email = $1'
+    const result = await pool.query(query, values)
+    console.log(result.rows[0])
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("getUserIdbyEmail: Error occurred while querying database");
+  }
+}
+
+
 const getAllProducts = async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM products ORDER BY id ASC')
@@ -275,5 +292,6 @@ module.exports = {
   getProductById,
   addProduct,
   deleteProductById,
-  updateProduct
+  updateProduct,
+  getUserIdbyEmail
 }
