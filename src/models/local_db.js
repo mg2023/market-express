@@ -39,7 +39,7 @@ const getDateFromDataBase = async (req, res) => {
 const getUserIdbyEmail = async (req, res) => {
   try {
     //console.log(process.env)
-    const { email } = req.body;
+    const { email } = req.params;
     const values = [ email ]
     const query = 'SELECT * FROM customers where email = $1'
     const result = await pool.query(query, values)

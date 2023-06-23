@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/getId", async (req, res) => {
+router.get("/getId/:email", async (req, res) => {
   try {
     await getUserIdbyEmail(req, res);
   } catch (error) {
