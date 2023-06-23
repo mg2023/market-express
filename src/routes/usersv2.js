@@ -1,38 +1,50 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 
-const { verificarExistenciaDeCredenciales } = require('../middleware')
-const { verificarEmail, registrarUsuario, verifyCredentials } = require('../models/local_db')
+const { verificarExistenciaDeCredenciales } = require("../middleware");
+const {
+  verificarEmail,
+  registrarUsuario,
+  verifyCredentials,
+} = require("../models/local_db");
 
-const requiredFields = ['email', 'password', 'first_name', 'last_name', 'telephone'];
-router.post('/register', verificarExistenciaDeCredenciales(requiredFields), async (req, res) => {
+const requiredFields = [
+  "email",
+  "password",
+  "first_name",
+  "last_name",
+  "telephone",
+];
+router.post(
+  "/register",
+  verificarExistenciaDeCredenciales(requiredFields),
+  async (req, res) => {
     try {
-        const customer = req.body
-        const status = await verificarEmail(customer.email)
-        if (status === true) {
-            throw { code: 401, message: "Usuario ya existe" }
-        }
-        await registrarUsuario(customer)
-        res.send("Usuario creado con éxito")
+      const customer = req.body;
+      const status = await verificarEmail(customer.email);
+      if (status === true) {
+        throw { code: 401, message: "Usuario ya existe" };
+      }
+      await registrarUsuario(customer);
+      res.send("Usuario creado con éxito");
+    } catch (error) {
+      console.log(error.message);
+      res.status(error.code || 500).send(error.message);
     }
-    catch (error) {
-        console.log(error.message)
-        res.status(error.code || 500).send(error.message)
-    }
-})
+  }
+);
 
-router.post('/login', async (req, res) => {
-    try {
-        const { email, password } = req.body
-        await verifyCredentials(email, password)
-        const token = jwt.sign({ email }, 'clavesecreta', { expiresIn: "2 days" })
-        res.send(token)
-    }
-    catch (error) {
-        //Envia los casos de usuario o contraseña incorrecta
-        res.status(error.code || 500).send(error.message)
-    }
-})
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    await verifyCredentials(email, password);
+    const token = jwt.sign({ email }, "clavesecreta", { expiresIn: "2 days" });
+    res.send(token);
+  } catch (error) {
+    //Envia los casos de usuario o contraseña incorrecta
+    res.status(error.code || 500).send(error.message);
+  }
+});
 
 module.exports = router;

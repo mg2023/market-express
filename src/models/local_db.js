@@ -41,7 +41,7 @@ const getUserIdbyEmail = async (req, res) => {
     //console.log(process.env)
     const { email } = req.body;
     const values = [ email ]
-    const query = 'SELECT id FROM customers where email = $1'
+    const query = 'SELECT * FROM customers where email = $1'
     const result = await pool.query(query, values)
     console.log(result.rows[0])
     res.status(200).json(result.rows[0]);
