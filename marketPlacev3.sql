@@ -112,3 +112,7 @@ VALUES(4, 71200, NOW() );
 
 INSERT INTO orders(customer_id,total_amount,created_at)
 VALUES(2, 12500, NOW() );
+
+
+INSERT INTO customers(id, email, password, first_name, last_name, telephone,type, created_at, modified_at, deleted_at) 
+VALUES (DEFAULT, 'admin@admin.com','admin', 'admin', 'admin', '+666', 1, '06/06/2023', null, null );

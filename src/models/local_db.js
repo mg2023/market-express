@@ -277,6 +277,40 @@ const setContactRequest = async (req, res,) => {
 
 
 
+
+const deleteContactById = async (id) => {
+  try {
+
+    const values = [id]
+    const query = "DELETE FROM contact_requests WHERE id=$1"
+
+    const result = await pool.query(query, values)
+    //console.log(result)
+    return 204
+
+  } catch (error) {
+    console.error(error);
+    return 500
+    //res.status(500).send("deleteProductById: Error occurred while querying database");
+  }
+}
+
+
+
+
+const getContactById = async (id) => {
+  try {
+    const values = [id]
+    const query = 'SELECT * FROM contact_requests WHERE id= $1'
+    const result = await pool.query(query, values)
+    return (result.rows);
+  } catch (error) {
+    console.error(error);
+    return error
+  }
+}
+
+
 module.exports = {
   getContactRequest,
   setContactRequest,
@@ -293,5 +327,7 @@ module.exports = {
   addProduct,
   deleteProductById,
   updateProduct,
-  getUserIdbyEmail
+  getUserIdbyEmail,
+  deleteContactById,
+  getContactById
 }
