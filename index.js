@@ -1,8 +1,10 @@
 const express = require("express");
 require("dotenv").config();
+const cors = require("cors");
 const { getDateFromDataBase } = require("./src/models/local_db");
 const { apiRouter } = require("./src/server/server");
-const cors = require("cors");
+const {swaggerDocs:  V1SwaggerDocs} = require('./src/swagger')
+
 const app = express();
 const port = process.env.PORT | 3000;
 
@@ -25,6 +27,31 @@ app.use((req, res, next) => {
   next();
 });
 
+
+
+
+/**
+ *	@openapi
+ *	/:
+ *  	get:
+ *    	tags:
+ *      	- Get time from database
+ *     	responses:
+ *      	200:
+ *      		description: OK
+ *         	content:
+ *          	application/json:
+ *             	schema:
+ *               	type: object
+ *               	properties:
+ *                 	status:
+ *                   	type: string
+ *                   	example: OK
+ *                 	data:
+ *                   	type: array 
+ *                   	items: 
+ *                     	type: object
+ */
 app.get("/", async (req, res) => {
   await getDateFromDataBase(req, res);
 });
@@ -33,6 +60,7 @@ apiRouter(app);
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
+  V1SwaggerDocs(app, port )
 });
 
 module.exports = app;
