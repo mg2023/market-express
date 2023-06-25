@@ -263,8 +263,8 @@ const getContactRequest = async (req, res,) => {
 const setContactRequest = async (req, res,) => {
   try {
     const { name, email, comments } = req.body
-
     console.log(req.body)
+    console.log(comments)
     const values = [name, email, comments]
     const query = "INSERT INTO contact_requests (name, email, comments, created_at) VALUES ($1,$2, $3, NOW())"
     await pool.query(query, values)

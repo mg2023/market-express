@@ -1,8 +1,10 @@
 const express = require("express");
 require("dotenv").config();
+const cors = require("cors");
 const { getDateFromDataBase } = require("./src/models/local_db");
 const { apiRouter } = require("./src/server/server");
-const cors = require("cors");
+
+
 const app = express();
 const port = process.env.PORT | 3000;
 
@@ -24,6 +26,10 @@ app.use((req, res, next) => {
   console.log(`${time} --- New request ${req.method}, on path ${req.path}`);
   next();
 });
+
+
+
+
 
 app.get("/", async (req, res) => {
   await getDateFromDataBase(req, res);
