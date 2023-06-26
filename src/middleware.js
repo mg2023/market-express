@@ -15,33 +15,19 @@ function verificarExistenciaDeCredenciales(fields) {
 }
 
 const verificarToken = (req, res, next) => {
+  if (!req.headers.authorization) {
+    return res.status(401).json({
+      error: "No authorization header found",
+    });
+  }
+  const token = req.headers.authorization.split(" ")[1];
   try {
-    let token = req.header("Authorization");
-    console.log(token)
-
-    if (!token)
-      throw {
-        code: 401,
-        message: "Token not found",
-      };
-
-    token = req.header("Authorization").split("Bearer ")[1];
-
-    const decodedToken = jwt.verify(token, "clavesecreta");
-    // otra opcion para decodificar
-    // const {email} = jwt.decode(token)
-
-    req.email = decodedToken.email;
+    const decoded = jwt.verify(token, "clavesecreta");
     next();
   } catch (error) {
-    if (error.name === "JsonWebTokenError") {
-      console.error("Invalid token");
-    } else if (error.name === "TokenExpiredError") {
-      console.error("Token expired");
-    } else {
-      console.error("Unknown error", error);
-    }
-    res.status(error.code || 500).send(error.message);
+    return res.status(401).json({
+      error: "Invalid authorization token",
+    });
   }
 };
 

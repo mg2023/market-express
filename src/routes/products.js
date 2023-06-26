@@ -9,31 +9,20 @@ const {
   updateProduct,
 } = require("../models/local_db");
 
-
-
 /**
- * @swagger
- * /:
+ * @openapi
+ * /api/v1/products/:
  *   get:
  *     summary: Get all products
  *     description: Retrieve a list of all products.
+ *     tags:
+ *       - Products
  *     responses:
  *       200:
  *         description: Success
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Product'
  *       500:
  *         description: Internal Server Error
  */
-
-
-
-
-
 router.get("/", async (req, res) => {
   await getAllProducts(req, res);
 });
@@ -51,8 +40,6 @@ router.get("/", async (req, res) => {
  *         in: path
  *         description: Product ID
  *         required: true
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: Product found
@@ -83,24 +70,23 @@ router.get("/:id", async (req, res) => {
  * @swagger
  * /api/v1/products:
  *   post:
- *     summary: Add a product
- *     description: Add a new product
+ *     summary: Add a new product
+ *     description: Register a new user with the provided information
  *     tags:
  *       - Products
  *     requestBody:
- *       description: Product data
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/ProductInput'
+ *             $ref: '#/components/schemas/Product'
  *     responses:
- *       201:
+ *       '201':
  *         description: Product added successfully
- *       400:
- *         description: Invalid request payload
- *       500:
- *         description: Error occurred while adding the product
+ *       '400':
+ *         description: Empty fields or missing required properties
+ *       '500':
+ *         description: Internal server error
  */
 router.post("/", async (req, res) => {
   await addProduct(req, res);
@@ -119,8 +105,6 @@ router.post("/", async (req, res) => {
  *         in: path
  *         description: Product ID
  *         required: true
- *         schema:
- *           type: string
  *     responses:
  *       200:
  *         description: Product deleted successfully
@@ -153,34 +137,33 @@ router.delete("/:id", async (req, res) => {
  * @swagger
  * /api/v1/products/{id}:
  *   put:
- *     summary: Update a product
- *     description: Update a product with the provided ID
+ *     summary: Update a product by ID
+ *     description: Register a new user with the provided information
  *     tags:
  *       - Products
  *     parameters:
- *       - name: id
- *         in: path
- *         description: Product ID
+ *       - in: path
+ *         name: id
+ *         description: ID of the product to update
  *         required: true
  *         schema:
  *           type: string
- *       - name: body
- *         in: body
- *         description: Product data
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             id:
- *               type: string
- *             // Include other properties of the product (e.g., name, price, etc.)
+ *         example: "123456789"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Product'
  *     responses:
- *       200:
+ *       '200':
  *         description: Product updated successfully
- *       400:
- *         description: Invalid request payload
- *       404:
+ *       '400':
+ *         description: Invalid request or parameter
+ *       '404':
  *         description: Product not found
+ *       '500':
+ *         description: Internal server error
  */
 router.put("/:id", async (req, res) => {
   const { id } = req.body;

@@ -17,24 +17,10 @@ const { getContactRequest, setContactRequest, getContactById,  deleteContactById
  *     responses:
  *       200:
  *         description: Contact requests retrieved successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/ContactRequest'
  *       401:
  *         description: Unauthorized - Missing or invalid token
  *       500:
  *         description: Error occurred while retrieving contact requests
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "An error occurred while retrieving contact requests"
  */
 router.get("/", verificarToken, async (req, res) => {
   await getContactRequest(req, res);
@@ -56,7 +42,18 @@ router.get("/", verificarToken, async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/ContactRequest'
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   example: "jhon"
+ *                 email:
+ *                   type: string
+ *                   example: "jhon@gmail.com"
+ *                 comments:
+ *                   type: string
+ *                   example: "Hello!, I have a question..."
+ * 
  *     responses:
  *       201:
  *         description: Contact request created successfully
@@ -82,7 +79,6 @@ router.get("/", verificarToken, async (req, res) => {
  *                   example: "An error occurred while creating the contact request"
  */
 router.post("/", verificarToken, async (req, res) => {
-  console.log("llega a la ruta post contact");
   await setContactRequest(req, res);
 });
 
