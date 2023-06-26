@@ -6,7 +6,7 @@ const options = {
 		openapi: "3.0.0",
 		info: { title: "Marketplace", version: "1.0.0"}
 	},
-	apis: ["./server/server.js","./routes/*.js"]
+	apis: ["index.js","./server/server.js","./routes/*.js"]
 }
 
 const swaggerSpec = swaggerJSDoc(options)
